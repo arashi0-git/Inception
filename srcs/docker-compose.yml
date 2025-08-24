@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    env_file: .env
+    volumes:
+      - type: bind
+        source: /home/aryamamo/data/mariadb
+        target: /var/lib/mysql
+    networks:
+      - inception
+    restart: always
+
+  wordpress:
+    build ./requirements/wordpress
+    container_name: wordpress
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    env_file: .env
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    restart: always
+
+volumes:
+  mariadb_data:
+  wordpress_data:
+
+networks:
+  inception:
