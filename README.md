@@ -103,10 +103,14 @@
 | COPY | ホストマシンのファイルをイメージに追加する |\
 | CMD | デフォルト命令を指定する |\
 
+## Dockerfileとは
+
+Dockerfileとはシンプルなテキストファイルで、Dockerイメージを構築するための一連の指示が含まれている。使用するベースイメージを指定し、パッケージのインストール、ファイルのコピー、環境変数の設定など、イメージの設定と構築のプロセスを自動化する一連のこまん
+
 ## 参考文献
 
 * <https://zenn.dev/suzuki_hoge/books/2022-03-docker-practice-8ae36c33424b59/viewer/1-3-docker>
 
 
 ## 作成ページ
-http://localhost:8080
+https://localhost:443
