@@ -9,4 +9,4 @@ COPY init.sql /docker-entrypoint-initdb.d/init.sql
 RUN chmod +x /usr/local/bin/start.sh && sed -i 's/\r$//' /usr/local/bin/start.sh
 
 VOLUME ["/var/lib/mysql"]
-ENTRYPOINT ["bin/sh", "/usr/local/bin/start.sh"]
+ENTRYPOINT ["/bin/sh", "/usr/local/bin/start.sh"]

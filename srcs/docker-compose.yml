@@ -4,9 +4,7 @@ services:
     container_name: mariadb
     env_file: .env
     volumes:
-      - type: bind
-        source: /home/aryamamo/data/mariadb
-        target: /var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     networks:
       - inception
     restart: always
@@ -41,8 +39,8 @@ services:
     restart: always
 
 volumes:
-  mariadb_data:
-  wordpress_data:
+  mariadb_data: {}
+  wordpress_data: {}
 
 networks:
-  inception:
+  inception: {}

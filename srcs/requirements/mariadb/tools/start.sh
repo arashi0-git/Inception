@@ -9,9 +9,9 @@ chmod 750 /var/lib/mysql
 
 if [ ! -d "$DATA_DIR/mysql" ]; then
     echo "Initializing MariaDB data directory..."
-    mariadb-install-db --user=mysql --ldata=$DATA_DIR
+    mariadb-install-db --user=mysql --ldata=$DATA_DIR --skip-test-db
 
-    echo "Running init.sql..."
+    echo "Starting temporary MariaDB server for initialization..."
     mysqld_safe --skip-networking &
     pid="$!"
 
@@ -21,11 +21,16 @@ if [ ! -d "$DATA_DIR/mysql" ]; then
         sleep 1
     done
 
+    echo "Running initialization SQL..."
     mariadb -uroot < /docker-entrypoint-initdb.d/init.sql
 
+    echo "Stopping temporary server..."
     kill -s TERM "$pid"
     wait "$pid"
+    
+    echo "Cleanup complete"
+    sleep 2
 fi
 
-echo "Starting MariaDB server"
+echo "Starting MariaDB server for network access"
 exec /usr/sbin/mariadbd --user=mysql --bind-address=0.0.0.0
